@@ -1,0 +1,110 @@
+﻿<!--
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF 
+ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A 
+PARTICULAR PURPOSE.  
+Copyright (c) Microsoft Corporation. All rights reserved.
+-->
+<UserControl x:Class="KSUtil.CompareFileDataGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:KSUtil"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style x:Key="PublicMetadataExpanderStyle" TargetType="Expander">
+            <Setter Property="IsEnabled" Value="True"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding PublicMetadata.Count}" Value="0" />
+                        <Condition Binding="{Binding PublicMetadata.Count}" Value="0" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="False" />
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="PersonalMetadataExpanderStyle" TargetType="Expander">
+            <Setter Property="IsEnabled" Value="True"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding PersonalMetadata.Count}" Value="0" />
+                        <Condition Binding="{Binding PersonalMetadata.Count}" Value="0" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="False" />
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="StreamExpanderStyle" TargetType="Expander">
+            <Setter Property="IsEnabled" Value="True"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding LeftFileData.Streams.Count}" Value="0" />
+                        <Condition Binding="{Binding RightFileData.Streams.Count}" Value="0" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="False" />
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid DataContext="{Binding}" Background="Lavender">
+        <DockPanel x:Name="CompareFileDataDockPanel" LastChildFill="True" Margin="20,20,20,80">
+            <TextBlock x:Name="CompareFileDataTitle" DockPanel.Dock="Top" Text="{Binding FileCompareText}" Height="Auto" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+            <ScrollViewer x:Name="CompareFileDataScrollViewer" DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel x:Name="CompareFileDataStackPanel" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Expander x:Name="ComparePublicMetadataExpander" Style="{Binding Mode=OneWay, Source={StaticResource PublicMetadataExpanderStyle}}" IsExpanded="False">
+                        <Expander.Header>
+                            <TextBlock Text="{Binding PublicMetadataCompareText}"/>
+                        </Expander.Header>
+                        <local:CompareDataGrid x:Name="ComparePublicMetadataGrid" DataContext="{Binding PublicMetadata}" Margin="25,0,0,0"/>
+                    </Expander>
+                    <Expander x:Name="ComparePersonalMetadataExpander" Style="{Binding Mode=OneWay, Source={StaticResource PersonalMetadataExpanderStyle}}" IsExpanded="False">
+                        <Expander.Header>
+                            <TextBlock Text="{Binding PersonalMetadataCompareText}"/>
+                        </Expander.Header>
+                        <local:CompareDataGrid x:Name="ComparePersonalMetadataGrid" DataContext="{Binding PersonalMetadata}" Margin="25,0,0,0"/>
+                    </Expander>
+                    <Expander x:Name="CompareStreamsExpander" IsExpanded="True" Style="{Binding Mode=OneWay, Source={StaticResource StreamExpanderStyle}}">
+                        <Expander.Header>
+                            <TextBlock Text="{Binding StreamsCompareText}"/>
+                        </Expander.Header>
+                        <DataGrid ItemsSource="{Binding Streams}"  Margin="25,0,0,0" AutoGenerateColumns="False" CanUserAddRows="False" CanUserReorderColumns="False" GridLinesVisibility="Horizontal" RowHeaderWidth="0" ColumnHeaderHeight="0" RowDetailsVisibilityMode="Visible">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding StreamName}" IsReadOnly="True" MinWidth="150" Width="Auto" FontSize="16"/>
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical" Margin="10,0,0,0" Background="#FFF7F7E5">
+                                        <Expander ExpandDirection="Down" IsExpanded="True" Header="{Binding StreamDetailsCompareText}">
+                                            <local:CompareDataGrid x:Name="StreamDetailsGrid" DataContext="{Binding StreamDetails}" Margin="10,0,10,0"/>
+                                        </Expander>
+                                        <Expander x:Name="StreamPublicMetadataExpander" ExpandDirection="Down" IsExpanded="False" Style="{Binding Mode=OneWay, Source={StaticResource PublicMetadataExpanderStyle}}">
+                                            <Expander.Header>
+                                                <TextBlock Text="{Binding StreamPublicMetadataCompareText}"/>
+                                            </Expander.Header>
+                                            <local:CompareDataGrid x:Name="PublicStreamMetadataGrid" DataContext="{Binding PublicMetadata}" Margin="10,0,10,0"/>
+                                        </Expander>
+                                        <Expander x:Name="StreamPersonalMetadataExpander" ExpandDirection="Down" IsExpanded="False" Style="{Binding Mode=OneWay, Source={StaticResource PersonalMetadataExpanderStyle}}">
+                                            <Expander.Header>
+                                                <TextBlock Text="{Binding StreamPersonalMetadataCompareText}" />
+                                            </Expander.Header>
+                                            <local:CompareDataGrid x:Name="PersonalStreamMetadataGrid" DataContext="{Binding PersonalMetadata}" Margin="10,0,10,0"/>
+                                        </Expander>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGrid.RowDetailsTemplate>
+                        </DataGrid>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</UserControl>

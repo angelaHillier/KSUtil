@@ -1,0 +1,58 @@
+﻿<!--
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF 
+ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A 
+PARTICULAR PURPOSE.  
+Copyright (c) Microsoft Corporation. All rights reserved.
+-->
+<UserControl x:Class="KSUtil.CompareDataGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KSUtil"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500">
+
+    <UserControl.Resources>
+        <Style x:Key="ComparisonKeyCellStyle" TargetType="DataGridCell">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding LeftValue}" Value=" ">
+                    <Setter Property="Background" Value="LightGray"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ComparisonLeftValueCellStyle" TargetType="DataGridCell">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding LeftValue}" Value=" ">
+                    <Setter Property="Background" Value="LightGray"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Same}" Value="False">
+                    <Setter Property="Foreground" Value="DarkRed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ComparisonRightValueCellStyle" TargetType="DataGridCell">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RightValue}" Value=" ">
+                    <Setter Property="Background" Value="LightGray"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Same}" Value="False">
+                    <Setter Property="Foreground" Value="DarkRed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid DataContext="{Binding}" Background="Lavender">
+        <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" GridLinesVisibility="None" RowHeaderWidth="0" HorizontalContentAlignment="Stretch">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{x:Static local:Strings.KeyHeader}" Binding="{Binding Key}" MinWidth="200"  CellStyle="{Binding Mode=OneWay, Source={StaticResource ComparisonKeyCellStyle}}"/>
+                <DataGridTextColumn Header="{x:Static local:Strings.LeftValueHeader}" Binding="{Binding LeftValue}" MinWidth="200"  CellStyle="{Binding Mode=OneWay, Source={StaticResource ComparisonLeftValueCellStyle}}"/>
+                <DataGridTextColumn Header="{x:Static local:Strings.RightValueHeader}" Binding="{Binding RightValue}" MinWidth="200"  CellStyle="{Binding Mode=OneWay, Source={StaticResource ComparisonRightValueCellStyle}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

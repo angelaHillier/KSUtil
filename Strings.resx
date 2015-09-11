@@ -1,0 +1,552 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CommandLineHelp" xml:space="preserve">
+    <value>The following commands are supported by KSUtil:
+  -view &lt;filePath&gt;
+     Display the contents of an event file (.xef or .xrf).
+     Use with -log &lt;filePath&gt; to copy the view result to a log file.
+  -compare &lt;filePath1&gt; &lt;filePath2&gt;
+     Compare metadata and stream content across two event files.
+     Use with -log &lt;filePath&gt; to copy the comparison result to a log file.
+  -update &lt;filePath&gt; &lt;metadataKey&gt; &lt;metadataValue&gt;
+     Add/edit metadata in an event file.
+     Use with -pii to alter personal metadata.
+     Use with -stream &lt;name&gt; to alter stream-level metadata.
+  -remove &lt;filePath&gt; &lt;metadataKey&gt;
+     Remove metadata from an event file.
+     Use with -pii to alter personal metadata.
+     Use with -stream &lt;name&gt; to alter stream-level metadata.
+  -play &lt;filePath&gt;
+     Playback an event file to the default Kinect service.
+     Use with -loop &lt;count&gt; to repeat playback of the file.
+     Use with -stream &lt;names&gt; to specify which streams to play.
+  -record &lt;filePath&gt; &lt;duration&gt;
+     Record an event file of a given length with the default Kinect service.
+     Use with -stream &lt;names&gt; to specify which streams to record.
+
+
+These optional commands are also available:
+  -log &lt;filePath&gt;
+     Use with -view, -compare, or -record to log file data to a .txt file.
+  -loop &lt;count&gt;
+     Use with -play to repeat playback n times before stopping.
+  -pii
+     Use with -update or -remove to alter personal metadata in a file.
+  -stream &lt;stream1 stream2 stream3 ...&gt;
+     Use with -update or -remove to alter stream-level metadata.
+     Use with -play or -record to specify which streams to play/record.
+     Supported streams: depth, ir, body, bodyindex, longexposureir, color, rawir
+
+Sample Usage:
+   View
+      -view c:\temp\myClip.xef
+      -view xd:\clips\myRawClip.xrf -log c:\temp\myClip.txt
+   Compare
+      -compare c:\temp\myClip.xef xd:\clips\myRawClip.xrf
+      -compare c:\temp\myClip.xef c:\temp\myClip2.xef -log c:\temp\Compare.txt
+   Update
+       -update c:\temp\myClip.xef newMetadataKey newMetadataValue
+       -update xd:\clips\myClip.xef newKey newValue -pii
+       -update c:\temp\myClip.xef newKey newValue -stream depth ir body
+       -update c:\temp\myRawClip.xrf newKey newValue -pii -stream rawir
+   Remove
+       -remove c:\temp\myClip.xef metadataKey
+       -remove xd:\clips\myClip.xef metadataKey -pii
+       -remove c:\temp\myClip.xef metadataKey -stream depth ir
+       -remove c:\temp\myRawClip.xrf metadataKey -pii -stream rawir
+   Play
+       -play c:\temp\myClip.xef
+       -play xd:\clips\myRawClip.xrf -loop 3
+       -play xd:\clips\myClip.xef -stream depth ir color
+       -play c:\temp\myClip.xef -loop 2 -stream depth ir body
+   Record
+       -record c:\temp\newClip.xef 30
+       -record xd:\clips\newRawClip.xrf 10
+       -record xd:\clips\newClip.xef 10 -stream depth ir body
+       -record c:\temp\newRawClip.xrf 20 -stream rawir color</value>
+  </data>
+  <data name="CompareFiles" xml:space="preserve">
+    <value>Compare Files</value>
+  </data>
+  <data name="CompareFilesHeader" xml:space="preserve">
+    <value>{0} vs {1}</value>
+    <comment>file1Name vs file2Name</comment>
+  </data>
+  <data name="ComparisonResultsHeader" xml:space="preserve">
+    <value>Comparison Results</value>
+    <comment>final header for command line comparison output</comment>
+  </data>
+  <data name="ConsoleClipRepository" xml:space="preserve">
+    <value>xd:\clips</value>
+  </data>
+  <data name="DataTypeIdHeader" xml:space="preserve">
+    <value>Data Type ID</value>
+  </data>
+  <data name="Different" xml:space="preserve">
+    <value>different</value>
+  </data>
+  <data name="ErrorCompareFilesFailed" xml:space="preserve">
+    <value>Error: Failed to compare files, {0}</value>
+  </data>
+  <data name="ErrorInvalidArgs" xml:space="preserve">
+    <value>Invalid arguments for {0}</value>
+  </data>
+  <data name="ErrorInvalidFile" xml:space="preserve">
+    <value>Could not find the specified file.</value>
+  </data>
+  <data name="ErrorInvalidFileExtension" xml:space="preserve">
+    <value>Invalid file type, only .xef and .xrf files are supported.</value>
+  </data>
+  <data name="ErrorInvalidPath" xml:space="preserve">
+    <value>File path cannot be empty or null.</value>
+  </data>
+  <data name="ErrorLoadFileFailed" xml:space="preserve">
+    <value>Error: Failed to load file, {0}</value>
+  </data>
+  <data name="ErrorPrepend" xml:space="preserve">
+    <value>Error: {0}</value>
+  </data>
+  <data name="EventCountHeader" xml:space="preserve">
+    <value>Event Count</value>
+  </data>
+  <data name="EventDataSizeHeader" xml:space="preserve">
+    <value>Data Size</value>
+  </data>
+  <data name="EventFileDescription" xml:space="preserve">
+    <value>KStudio Event File</value>
+    <comment>Generic description for .xef and .xrf files</comment>
+  </data>
+  <data name="EventFileFilter" xml:space="preserve">
+    <value>(*.xef, *.xrf)|*.xef;*.xrf</value>
+    <comment>OpenFileDialog uses this to filter file extensions</comment>
+  </data>
+  <data name="EventIndexHeader" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="EventRelativeTimeHeader" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="EventsHeader" xml:space="preserve">
+    <value>Events ({0})</value>
+  </data>
+  <data name="EventTagSizeHeader" xml:space="preserve">
+    <value>Tag Size</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="FileMetadataHeader" xml:space="preserve">
+    <value>File Metadata</value>
+  </data>
+  <data name="KeyHeader" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="LeftValueHeader" xml:space="preserve">
+    <value>File 1</value>
+  </data>
+  <data name="ViewFile" xml:space="preserve">
+    <value>View File</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>none</value>
+  </data>
+  <data name="PersonalMetadataCompareCountHeader" xml:space="preserve">
+    <value>Personal Metadata ({0},{1})</value>
+    <comment>Personal Metadata (leftCount, rightCount)</comment>
+  </data>
+  <data name="PersonalMetadataDifferentResult" xml:space="preserve">
+    <value>Files differ in personal metadata content.</value>
+  </data>
+  <data name="PersonalMetadataHeader" xml:space="preserve">
+    <value>Personal Metadata ({0})</value>
+    <comment>Personal Metadata (count, none, same, or different)</comment>
+  </data>
+  <data name="PersonalMetadataSameResult" xml:space="preserve">
+    <value>Files have the same personal metadata content.</value>
+  </data>
+  <data name="PublicMetadataCompareCountHeader" xml:space="preserve">
+    <value>Public Metadata ({0},{1})</value>
+    <comment>Public Metadata (leftCount, rightCount)</comment>
+  </data>
+  <data name="PublicMetadataDifferentResult" xml:space="preserve">
+    <value>Files differ in public metadata content.</value>
+  </data>
+  <data name="PublicMetadataHeader" xml:space="preserve">
+    <value>Public Metadata ({0})</value>
+    <comment>Public Metadata (count, none, same, or different)</comment>
+  </data>
+  <data name="PublicMetadataSameResult" xml:space="preserve">
+    <value>Files have the same public metadata content.</value>
+  </data>
+  <data name="RightValueHeader" xml:space="preserve">
+    <value>File 2</value>
+  </data>
+  <data name="Same" xml:space="preserve">
+    <value>same</value>
+  </data>
+  <data name="SemanticIdHeader" xml:space="preserve">
+    <value>Semantic ID</value>
+  </data>
+  <data name="StreamDetailsHeader" xml:space="preserve">
+    <value>Stream Details ({0})</value>
+    <comment>Stream Details (none, same, or different)</comment>
+  </data>
+  <data name="StreamEndTimeHeader" xml:space="preserve">
+    <value>End Time</value>
+  </data>
+  <data name="StreamNameHeader" xml:space="preserve">
+    <value>Stream Name</value>
+  </data>
+  <data name="StreamsCompareCountHeader" xml:space="preserve">
+    <value>Streams ({0},{1})</value>
+    <comment>Streams (leftCount, rightCount)</comment>
+  </data>
+  <data name="StreamsDifferentResult" xml:space="preserve">
+    <value>Files differ in stream content.</value>
+  </data>
+  <data name="StreamsHeader" xml:space="preserve">
+    <value>Streams ({0})</value>
+    <comment>Streams (count, none, same, or different)</comment>
+  </data>
+  <data name="StreamsSameResult" xml:space="preserve">
+    <value>Files have the same stream content.</value>
+  </data>
+  <data name="StreamStartTimeHeader" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ValueHeader" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="WaitForCompareFiles" xml:space="preserve">
+    <value>Comparing files, please wait...</value>
+  </data>
+  <data name="WaitForViewFile" xml:space="preserve">
+    <value>Loading file, please wait...</value>
+  </data>
+  <data name="XefExtension" xml:space="preserve">
+    <value>.xef</value>
+  </data>
+  <data name="XrfExtension" xml:space="preserve">
+    <value>.xrf</value>
+  </data>
+  <data name="CloseFile" xml:space="preserve">
+    <value>Close File</value>
+  </data>
+  <data name="StartPlayback" xml:space="preserve">
+    <value>Playback in progress. Please monitor NuiView for visual feedback.</value>
+  </data>
+  <data name="StartRecording" xml:space="preserve">
+    <value>Recording in progress...</value>
+  </data>
+  <data name="StopPlayback" xml:space="preserve">
+    <value>Playback has stopped.</value>
+  </data>
+  <data name="StopRecording" xml:space="preserve">
+    <value>Recording has stopped.</value>
+  </data>
+  <data name="WaitToConnect" xml:space="preserve">
+    <value>Connecting to the Kinect service, please wait...</value>
+  </data>
+  <data name="WarningInvalidRecodingPath" xml:space="preserve">
+    <value>Warning: An invalid path was provided. The following clip will be created in the default repository: {0}</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done!</value>
+  </data>
+  <data name="UpdatingFileMetadata" xml:space="preserve">
+    <value>Updating file metadata...</value>
+  </data>
+  <data name="UpdatingStreamMetadata" xml:space="preserve">
+    <value>Updating {0} metadata...</value>
+  </data>
+  <data name="Command_Compare" xml:space="preserve">
+    <value>COMPARE</value>
+  </data>
+  <data name="Command_Help" xml:space="preserve">
+    <value>HELP</value>
+  </data>
+  <data name="Command_Log" xml:space="preserve">
+    <value>LOG</value>
+  </data>
+  <data name="Command_Loop" xml:space="preserve">
+    <value>LOOP</value>
+  </data>
+  <data name="Command_PII" xml:space="preserve">
+    <value>PII</value>
+  </data>
+  <data name="Command_Play" xml:space="preserve">
+    <value>PLAY</value>
+  </data>
+  <data name="Command_Record" xml:space="preserve">
+    <value>RECORD</value>
+  </data>
+  <data name="Command_Remove" xml:space="preserve">
+    <value>REMOVE</value>
+  </data>
+  <data name="Command_Stream" xml:space="preserve">
+    <value>STREAM</value>
+  </data>
+  <data name="Command_Update" xml:space="preserve">
+    <value>UPDATE</value>
+  </data>
+  <data name="Command_View" xml:space="preserve">
+    <value>VIEW</value>
+  </data>
+  <data name="ErrorDepthWithoutIR" xml:space="preserve">
+    <value>Cannot record/play Depth without IR.</value>
+  </data>
+  <data name="ErrorInvalidMetadataPair" xml:space="preserve">
+    <value>Failed to alter metadata. A valid key/value must be provided.</value>
+  </data>
+  <data name="ErrorInvalidStream" xml:space="preserve">
+    <value>Invalid stream specified: {0}</value>
+  </data>
+  <data name="ErrorIRWithoutDepth" xml:space="preserve">
+    <value>Cannot record/play IR without Depth.</value>
+  </data>
+  <data name="ErrorNoStreams" xml:space="preserve">
+    <value>No streams available.</value>
+  </data>
+  <data name="ErrorNullMetadataKey" xml:space="preserve">
+    <value>The metadata key cannot be null.</value>
+  </data>
+  <data name="ErrorPlaybackFailed" xml:space="preserve">
+    <value>An error occurred during playback: {0}</value>
+  </data>
+  <data name="ErrorPlaybackStreamNotInFile" xml:space="preserve">
+    <value>The {0} stream cannot be played because it does not exist in the file.</value>
+  </data>
+  <data name="ErrorRawIrWithIR" xml:space="preserve">
+    <value>Cannot record/play RawIR and IR at the same time.</value>
+  </data>
+  <data name="ErrorRecordingFailed" xml:space="preserve">
+    <value>An error occurred during recording: {0}</value>
+  </data>
+  <data name="Stream_Body" xml:space="preserve">
+    <value>body</value>
+  </data>
+  <data name="Stream_BodyIndex" xml:space="preserve">
+    <value>bodyIndex</value>
+  </data>
+  <data name="Stream_Color" xml:space="preserve">
+    <value>color</value>
+  </data>
+  <data name="Stream_Depth" xml:space="preserve">
+    <value>depth</value>
+  </data>
+  <data name="Stream_IR" xml:space="preserve">
+    <value>ir</value>
+  </data>
+  <data name="Stream_LongExpIR" xml:space="preserve">
+    <value>longExposureIr</value>
+  </data>
+  <data name="Stream_RawIR" xml:space="preserve">
+    <value>rawIr</value>
+  </data>
+  <data name="ToolTip_CloseFile" xml:space="preserve">
+    <value>Clear content</value>
+  </data>
+  <data name="ToolTip_CompareFiles" xml:space="preserve">
+    <value>Compare two event files</value>
+  </data>
+  <data name="ToolTip_Exit" xml:space="preserve">
+    <value>Exit KSUtil</value>
+  </data>
+  <data name="ToolTip_ViewFile" xml:space="preserve">
+    <value>View event file content</value>
+  </data>
+  <data name="WarningIgnoreBodyDuringPlayback" xml:space="preserve">
+    <value>Ignoring Body stream, it will be regenerated during playback.</value>
+  </data>
+  <data name="WarningIgnoreBodyIndexDuringPlayback" xml:space="preserve">
+    <value>Ignoring BodyIndex stream, it will be regenerated during playback.</value>
+  </data>
+  <data name="WelcomeDescription" xml:space="preserve">
+    <value>KSUtil is a sample tool built with the KStudio Managed API.
+
+Select 'View File' to view the contents of an event file (.xef or .xrf).
+Select 'Compare Files' for a side-by-side comparison of two event files.
+
+Additional functionality is offered via command line:
+  -view &lt;filePath&gt;
+     Display the contents of an event file (.xef or .xrf).
+  -compare &lt;filePath1&gt; &lt;filePath2&gt;
+     Compare metadata and stream content across two event files.
+  -update &lt;filePath&gt; &lt;metadataKey&gt; &lt;metadataValue&gt;
+     Add/edit metadata in an event file.
+  -remove &lt;filePath&gt; &lt;metadataKey&gt;
+     Remove metadata from an event file.
+  -play &lt;filePath&gt;
+     Playback an event file to the default Kinect service.
+  -record &lt;filePath&gt; &lt;duration&gt;
+     Record an event file of a given length with the default Kinect service.
+
+Use -help for more information.</value>
+  </data>
+  <data name="WelcomeHeader" xml:space="preserve">
+    <value>Welcome to KSUtil</value>
+  </data>
+  <data name="Command_Address" xml:space="preserve">
+    <value>ADDRESS</value>
+  </data>
+  <data name="ErrorFailedToConnect" xml:space="preserve">
+    <value>Failed to connect to the service. Please verify that the Kinect sensor is plugged in and operational.</value>
+  </data>
+  <data name="ErrorNotConnected" xml:space="preserve">
+    <value>The KStudio client is not connected.</value>
+  </data>
+  <data name="ErrorPlaybackStreamNotSupported" xml:space="preserve">
+    <value>The {0} stream is not supported for playback by the Kinect sensor.</value>
+  </data>
+  <data name="ErrorRecordingStreamNotSupported" xml:space="preserve">
+    <value>The {0} stream is not recordable by the Kinect sensor.</value>
+  </data>
+  <data name="FileHeader" xml:space="preserve">
+    <value>File: {0}</value>
+    <comment>File: {fileName}</comment>
+  </data>
+  <data name="MetadataValueBufferFriendlyName" xml:space="preserve">
+    <value>{Byte Array}</value>
+  </data>
+  <data name="ErrorInvalidIPAddress" xml:space="preserve">
+    <value>Failed to connect to the service due to an invalid IP address.</value>
+  </data>
+  <data name="ErrorInvalidConversion" xml:space="preserve">
+    <value>Invalid use of converter.</value>
+  </data>
+  <data name="ErrorNullStream" xml:space="preserve">
+    <value>A stream with a null DataTypeId is not supported.</value>
+  </data>
+  <data name="ErrorColorWithoutIR" xml:space="preserve">
+    <value>Cannot record/play Color without RawIR or IR.</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="ErrorInvalidDirectory" xml:space="preserve">
+    <value>The directory is invalid.</value>
+  </data>
+  <data name="ErrorCompressedAndUncompressedColor" xml:space="preserve">
+    <value>Cannot record/play Compressed and Uncompressed Color at the same time.</value>
+  </data>
+</root>
