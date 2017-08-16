@@ -130,7 +130,10 @@ namespace KSUtil
             List<string> streamList = new List<string>();
             bool updatePersonalMetadata = false;
             uint loopCount = 0;
-            Dictionary<string, List<string>> commands = new Dictionary<string, List<string>>();
+			TimeSpan StartingRelativeTime = TimeSpan.MinValue;
+			TimeSpan EndingRelativeTime = TimeSpan.MinValue;
+
+			Dictionary<string, List<string>> commands = new Dictionary<string, List<string>>();
 
             try
             {
@@ -192,8 +195,30 @@ namespace KSUtil
                     logFile = commands[Strings.Command_Log][0];
                 }
 
-                // -loop <count>
-                if (commands.ContainsKey(Strings.Command_Loop))
+				// -span <start> <end>
+				if (commands.ContainsKey(Strings.Command_Span))
+				{
+					if (commands[Strings.Command_Span].Count != 2)
+					{
+						Console.Error.WriteLine(string.Format(Strings.ErrorInvalidArgs, Strings.Command_Span));
+						return CommandLineResult.Invalid;
+					}
+
+					if (!TimeSpan.TryParse(commands[Strings.Command_Span][0], out StartingRelativeTime))
+					{
+						Console.Error.WriteLine(string.Format(Strings.ErrorInvalidArgs, Strings.Command_Span));
+						return CommandLineResult.Invalid;
+					}
+
+					if (!TimeSpan.TryParse(commands[Strings.Command_Span][1], out EndingRelativeTime))
+					{
+						Console.Error.WriteLine(string.Format(Strings.ErrorInvalidArgs, Strings.Command_Span));
+						return CommandLineResult.Invalid;
+					}
+				}
+
+				// -loop <count>
+				if (commands.ContainsKey(Strings.Command_Loop))
                 {
                     if (commands[Strings.Command_Loop].Count != 1)
                     {
@@ -247,8 +272,8 @@ namespace KSUtil
                         {
                             client.ConnectToService();
                         }
-
-                        using (KStudioEventFile eventFile = client.OpenEventFile(filePath))
+						FileInfo filePath_fi = new FileInfo(filePath);
+						using (KStudioEventFile eventFile = client.OpenEventFile(filePath_fi.FullName))
                         {
                             FileData data = new FileData(eventFile);
                             fileInfo = data.GetFileDataAsText();
@@ -291,8 +316,11 @@ namespace KSUtil
                             client.ConnectToService();
                         }
 
-                        using (KStudioEventFile eventFile1 = client.OpenEventFile(file1))
-                        using (KStudioEventFile eventFile2 = client.OpenEventFile(file2))
+						FileInfo filePath1_fi = new FileInfo(file1);
+						FileInfo filePath2_fi = new FileInfo(file2);
+
+						using (KStudioEventFile eventFile1 = client.OpenEventFile(filePath1_fi.FullName))
+                        using (KStudioEventFile eventFile2 = client.OpenEventFile(filePath2_fi.FullName))
                         {
                             FileData fileData1 = new FileData(eventFile1);
                             FileData fileData2 = new FileData(eventFile2);
@@ -329,13 +357,15 @@ namespace KSUtil
                     this.CheckFile(filePath);
                     string metadataText = string.Empty;
 
+					FileInfo filePath_fi = new FileInfo(filePath);
+
                     if (streamList.Count > 0)
                     {
                         // update stream metadata
                         foreach (string streamName in streamList)
                         {
                             Console.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.UpdatingStreamMetadata, streamName));
-                            metadataText = this.EditMetadata(filePath, key, value, streamName, updatePersonalMetadata, true);
+                            metadataText = this.EditMetadata(filePath_fi.FullName, key, value, streamName, updatePersonalMetadata, true);
                             Console.WriteLine(metadataText);
                         }
                     }
@@ -343,7 +373,7 @@ namespace KSUtil
                     {
                         // update file metadata
                         Console.WriteLine(Strings.UpdatingFileMetadata);
-                        metadataText = this.EditMetadata(filePath, key, value, string.Empty, updatePersonalMetadata, false);
+                        metadataText = this.EditMetadata(filePath_fi.FullName, key, value, string.Empty, updatePersonalMetadata, false);
                         Console.WriteLine(metadataText);
                     }
 
@@ -365,14 +395,15 @@ namespace KSUtil
                     string key = commands[Strings.Command_Remove][1];
                     this.CheckFile(filePath);
                     string metadataText = string.Empty;
+					FileInfo filePath_fi = new FileInfo(filePath);
 
-                    if (streamList.Count > 0)
+					if (streamList.Count > 0)
                     {
                         // update stream metadata
                         foreach (string streamName in streamList)
                         {
                             Console.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.UpdatingStreamMetadata, streamName));
-                            metadataText = this.EditMetadata(filePath, key, null, streamName, updatePersonalMetadata, true);
+                            metadataText = this.EditMetadata(filePath_fi.FullName, key, null, streamName, updatePersonalMetadata, true);
                             Console.WriteLine(metadataText);
                         }
                     }
@@ -380,7 +411,7 @@ namespace KSUtil
                     {
                         // update file metadata
                         Console.WriteLine(Strings.UpdatingFileMetadata);
-                        metadataText = this.EditMetadata(filePath, key, null, string.Empty, updatePersonalMetadata, false);
+                        metadataText = this.EditMetadata(filePath_fi.FullName, key, null, string.Empty, updatePersonalMetadata, false);
                         Console.WriteLine(metadataText);
                     }
 
@@ -400,14 +431,15 @@ namespace KSUtil
 
                     string filePath = commands[Strings.Command_Play][0];
                     this.CheckFile(filePath);
+					FileInfo filePath_fi = new FileInfo(filePath);
 
-                    using (KStudioClient client = KStudio.CreateClient())
+					using (KStudioClient client = KStudio.CreateClient())
                     {
                         Console.WriteLine(Strings.WaitToConnect);
                         client.ConnectToService();
                         
                         Console.WriteLine(Strings.StartPlayback);
-                        Playback.PlaybackClip(client, filePath, streamList, loopCount);
+                        Playback.PlaybackClip(client, filePath_fi.FullName, streamList, loopCount,StartingRelativeTime,EndingRelativeTime);
                         Console.WriteLine(Strings.StopPlayback);
                         
                         client.DisconnectFromService();
@@ -429,8 +461,9 @@ namespace KSUtil
 
                     string filePath = commands[Strings.Command_Record][0];
                     this.CheckDirectory(filePath);
+					FileInfo filePath_fi = new FileInfo(filePath);
 
-                    double time = 0;
+					double time = 0;
                     if (!double.TryParse(commands[Strings.Command_Record][1], out time))
                     {
                         Console.Error.WriteLine(string.Format(Strings.ErrorInvalidArgs, Strings.Command_Record));
@@ -447,10 +480,10 @@ namespace KSUtil
                         client.ConnectToService();
 
                         Console.WriteLine(Strings.StartRecording);
-                        Recording.RecordClip(client, filePath, duration, streamList);
+                        Recording.RecordClip(client, filePath_fi.FullName, duration, streamList);
                         Console.WriteLine(Strings.StopRecording);
 
-                        using (KStudioEventFile eventFile = client.OpenEventFile(filePath))
+                        using (KStudioEventFile eventFile = client.OpenEventFile(filePath_fi.FullName))
                         {
                             FileData fileData = new FileData(eventFile);
                             fileInfo = fileData.GetFileDataAsText();
