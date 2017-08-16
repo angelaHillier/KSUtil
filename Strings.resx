@@ -403,6 +403,9 @@ Sample Usage:
   <data name="Command_Remove" xml:space="preserve">
     <value>REMOVE</value>
   </data>
+  <data name="Command_Span" xml:space="preserve">
+    <value>SPAN</value>
+  </data>
   <data name="Command_Stream" xml:space="preserve">
     <value>STREAM</value>
   </data>
