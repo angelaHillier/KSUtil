@@ -192,8 +192,15 @@ namespace KSUtil
 				playback.EndBehavior = KStudioPlaybackEndBehavior.Stop; // this is the default behavior
 				playback.Mode = KStudioPlaybackMode.TimingEnabled; // this is the default behavior
 				playback.LoopCount = loopCount;
-				playback.InPointByRelativeTime = startingRelativeTime;
-				playback.OutPointByRelativeTime = endingRelativeTime;
+                if (startingRelativeTime != TimeSpan.MinValue)
+                {
+                    playback.InPointByRelativeTime = startingRelativeTime;
+                }
+                if (endingRelativeTime != TimeSpan.MinValue)
+                {
+                    playback.OutPointByRelativeTime = endingRelativeTime;
+                }
+
 				playback.Start();
 
 				while (playback.State == KStudioPlaybackState.Playing)
