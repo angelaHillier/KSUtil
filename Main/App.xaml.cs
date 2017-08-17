@@ -132,6 +132,8 @@ namespace KSUtil
             uint loopCount = 0;
 			TimeSpan StartingRelativeTime = TimeSpan.MinValue;
 			TimeSpan EndingRelativeTime = TimeSpan.MinValue;
+			string StartingMetadataKey = "";
+			string EndingMetadataKey = "";
 
 			Dictionary<string, List<string>> commands = new Dictionary<string, List<string>>();
 
@@ -194,6 +196,38 @@ namespace KSUtil
 
                     logFile = commands[Strings.Command_Log][0];
                 }
+
+				// -metaspan <start> <end>
+				if (commands.ContainsKey(Strings.Command_MetaSpan))
+				{
+					if (commands[Strings.Command_MetaSpan].Count != 2)
+					{
+						Console.Error.WriteLine(string.Format(Strings.ErrorInvalidArgs, Strings.Command_MetaSpan));
+						return CommandLineResult.Invalid;
+					}
+
+					if (string.IsNullOrEmpty(commands[Strings.Command_MetaSpan][0]))
+					{
+						Console.Error.WriteLine(string.Format(Strings.ErrorInvalidArgs, Strings.Command_MetaSpan));
+						return CommandLineResult.Invalid;
+					}
+					else
+					{
+						//StartingRelativeTime
+						StartingMetadataKey = commands[Strings.Command_MetaSpan][0];
+					}
+
+					if (string.IsNullOrEmpty(commands[Strings.Command_MetaSpan][1]))
+					{
+						Console.Error.WriteLine(string.Format(Strings.ErrorInvalidArgs, Strings.Command_MetaSpan));
+						return CommandLineResult.Invalid;
+					}
+					else
+					{
+						//EndingRelativeTime
+						EndingMetadataKey = commands[Strings.Command_MetaSpan][1];
+					}
+				}
 
 				// -span <start> <end>
 				if (commands.ContainsKey(Strings.Command_Span))
@@ -433,6 +467,30 @@ namespace KSUtil
                     this.CheckFile(filePath);
 					FileInfo filePath_fi = new FileInfo(filePath);
 
+					if(!string.IsNullOrEmpty(StartingMetadataKey) && !string.IsNullOrEmpty(EndingMetadataKey))
+					{
+						object start_metadata_value = null;
+						string start_metadata_value_str = QueryMetadata(filePath_fi.FullName, StartingMetadataKey, null, true, false, out start_metadata_value);
+
+						object end_metadata_value = null;
+						string end_metadata_value_str = QueryMetadata(filePath_fi.FullName, EndingMetadataKey, null, true, false, out end_metadata_value);
+
+						if(start_metadata_value == null || start_metadata_value.GetType() != typeof(TimeSpan))
+						{
+							Console.Error.WriteLine(string.Format(Strings.ErrorInvalidMetadataPair, Strings.Command_Play));
+							return CommandLineResult.Invalid;
+						}
+
+						if (end_metadata_value == null || end_metadata_value.GetType() != typeof(TimeSpan))
+						{
+							Console.Error.WriteLine(string.Format(Strings.ErrorInvalidMetadataPair, Strings.Command_Play));
+							return CommandLineResult.Invalid;
+						}
+
+						StartingRelativeTime = (TimeSpan)start_metadata_value;
+						EndingRelativeTime = (TimeSpan)end_metadata_value;
+					}
+
 					using (KStudioClient client = KStudio.CreateClient())
                     {
                         Console.WriteLine(Strings.WaitToConnect);
@@ -626,5 +684,56 @@ namespace KSUtil
 
             return metadataText;
         }
-    }
+
+		/// <summary>
+		/// Queries file or stream-level metadata
+		/// </summary>
+		/// <param name="filePath">Path of file which contains metadata to query</param>
+		/// <param name="key">Key of metadata item to query</param>
+		/// <param name="value">New value to set for the metadata item</param>
+		/// <param name="streamName">String which represents the stream to query metadata from</param>
+		/// <param name="isPersonalMetadata">Value which indicates if the key being queried is categorized as personal metadata (default is personal)</param>
+		/// <param name="isStreamMetadata">Value which indicates if the key being queried is categorized as stream metadata (default is file)</param>
+		/// <returns>String containing contents of the target metadata object</returns>
+		private string QueryMetadata(string filePath, string key, string streamName, bool isPersonalMetadata, bool isStreamMetadata,out object value)
+		{
+			if (string.IsNullOrEmpty(filePath))
+			{
+				throw new ArgumentNullException("filePath");
+			}
+
+			if (string.IsNullOrEmpty(key))
+			{
+				throw new ArgumentNullException("key");
+			}
+
+			string metadataText = string.Empty;
+			value = null;
+
+			using (KStudioClient client = KStudio.CreateClient())
+			{
+				if (filePath.ToUpperInvariant().StartsWith(Strings.ConsoleClipRepository.ToUpperInvariant()))
+				{
+					client.ConnectToService();
+				}
+
+				KStudioMetadataType type = KStudioMetadataType.Public;
+				if (isPersonalMetadata)
+				{
+					type = KStudioMetadataType.PersonallyIdentifiableInformation;
+				}
+
+				if (isStreamMetadata)
+				{
+					metadataText = Metadata.QueryStreamMetadata(client, filePath, streamName, type, key, out value);
+				}
+				else
+				{
+					metadataText = Metadata.QueryFileMetadata(client, filePath, type, key, out value);
+				}
+			}
+
+			return metadataText;
+		}
+	}
 }
