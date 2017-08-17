@@ -136,6 +136,8 @@
   -play &lt;filePath&gt;
      Playback an event file to the default Kinect service.
      Use with -loop &lt;count&gt; to repeat playback of the file.
+     Use with -span &lt;start&gt; &lt;end&gt; to playback a portion of the clip starting from start to end. Start and end are TimeSpans given in string format(e.g. 0:04:00.1122344)
+     Use with -metaspan &lt;start&gt; &lt;end&gt; to playback a portion of the clip starting from start to end. Start and end are Metadata Keys that correspond whose values are of TimeSpan type.
      Use with -stream &lt;names&gt; to specify which streams to play.
   -record &lt;filePath&gt; &lt;duration&gt;
      Record an event file of a given length with the default Kinect service.
@@ -176,6 +178,8 @@ Sample Usage:
        -play xd:\clips\myRawClip.xrf -loop 3
        -play xd:\clips\myClip.xef -stream depth ir color
        -play c:\temp\myClip.xef -loop 2 -stream depth ir body
+       -play c:\temp\myClip.xef -span 0:00:00.0001 0:05:00.0000 -loop 15
+       -play c:\temp\myClip.xef -metaspan TimeSpanMetadataKeyStart TimeSpanMetadataKeyEnd -loop 4
    Record
        -record c:\temp\newClip.xef 30
        -record xd:\clips\newRawClip.xrf 10
@@ -390,6 +394,9 @@ Sample Usage:
   </data>
   <data name="Command_Loop" xml:space="preserve">
     <value>LOOP</value>
+  </data>
+  <data name="Command_MetaSpan" xml:space="preserve">
+    <value>METASPAN</value>
   </data>
   <data name="Command_PII" xml:space="preserve">
     <value>PII</value>

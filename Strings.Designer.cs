@@ -115,6 +115,15 @@ namespace KSUtil {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to METASPAN.
+        /// </summary>
+        public static string Command_MetaSpan {
+            get {
+                return ResourceManager.GetString("Command_MetaSpan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PII.
         /// </summary>
         public static string Command_PII {
