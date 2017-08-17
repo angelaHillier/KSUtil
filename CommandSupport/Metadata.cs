@@ -53,16 +53,110 @@ namespace KSUtil
             return result;
         }
 
-        /// <summary>
-        /// Updates (adds/edits) file-level metadata in an event file
-        /// </summary>
-        /// <param name="client">KStudioClient to use for accessing the event file</param>
-        /// <param name="fileName">Path to event file</param>
-        /// <param name="type">Type of metadata (Public or Personal)</param>
-        /// <param name="key">Key of metadata object to add/edit</param>
-        /// <param name="value">Value of metadata object to add/edit</param>
-        /// <returns>String which contains the updated contents of the target metadata object</returns>
-        public static string UpdateFileMetadata(KStudioClient client, string fileName, KStudioMetadataType type, string key, object value)
+		/// <summary>
+		/// Queries file-level metadata in an event file
+		/// </summary>
+		/// <param name="client">KStudioClient to use for accessing the event file</param>
+		/// <param name="fileName">Path to event file</param>
+		/// <param name="type">Type of metadata (Public or Personal)</param>
+		/// <param name="key">Key of metadata object to query</param>
+		/// <param name="value">Target metadata object value returned through an out parameter modifier</param>
+		/// <returns>String which contains the contents of the target metadata object</returns>
+		public static string QueryFileMetadata(KStudioClient client, string fileName, KStudioMetadataType type, string key,out object value)
+		{
+			value = null;
+
+			if (client == null)
+			{
+				throw new ArgumentNullException("client");
+			}
+
+			if (string.IsNullOrEmpty(fileName))
+			{
+				throw new ArgumentNullException("fileName");
+			}
+
+			string metadataText = string.Empty;
+
+			using (KStudioEventFile file = client.OpenEventFile(fileName))
+			{
+				KStudioMetadata metadata = file.GetMetadata(type);
+				if (!metadata.ContainsKey(key))
+				{
+					throw new KeyNotFoundException("key");
+				}
+				value = metadata[key];
+				metadataText = Metadata.GetMetadataAsText(metadata, type, string.Empty);
+			}
+
+			return metadataText;
+		}
+
+		/// <summary>
+		/// Queries stream-level metadata in an event file
+		/// </summary>
+		/// <param name="client">KStudioClient to use for accessing the event file</param>
+		/// <param name="fileName">Path to event file</param>
+		/// <param name="streamName">Name of stream which should contain the metadata</param>
+		/// <param name="type">Type of metadata to update (Public or Personal)</param>
+		/// <param name="key">Key of metadata object to query</param>
+		/// <param name="value">Target metadata object value returned through an out parameter modifier</param>
+		/// <returns>String which contains the contents of the target metadata object</returns>
+		public static string QueryStreamMetadata(KStudioClient client, string fileName, string streamName, KStudioMetadataType type, string key, out object value)
+		{
+			value = null;
+			if (client == null)
+			{
+				throw new ArgumentNullException("client");
+			}
+
+			if (string.IsNullOrEmpty(fileName))
+			{
+				throw new ArgumentNullException("fileName");
+			}
+
+			if (string.IsNullOrEmpty(streamName))
+			{
+				throw new ArgumentNullException("streamName");
+			}
+
+			string metadataText = string.Empty;
+
+			using (KStudioEventFile file = client.OpenEventFile(fileName))
+			{
+				// find the stream in the file and alter its metadata
+				Guid dataTypeId = StreamSupport.ConvertStreamStringToGuid(streamName);
+				if (dataTypeId == KStudioEventStreamDataTypeIds.Null)
+				{
+					throw new InvalidOperationException(Strings.ErrorNullStream);
+				}
+
+				KStudioEventStream stream = file.EventStreams.FirstOrDefault(s => s.DataTypeId == dataTypeId);
+				if (stream != null)
+				{
+					KStudioMetadata metadata = stream.GetMetadata(type);
+					if (!metadata.ContainsKey(key))
+					{
+						throw new KeyNotFoundException("key");
+					}
+					value = metadata[key];
+					metadataText = Metadata.GetMetadataAsText(metadata, type, stream.DataTypeName);
+				}
+			}
+
+			return metadataText;
+		}
+
+		/// <summary>
+		/// Updates (adds/edits) file-level metadata in an event file
+		/// </summary>
+		/// <param name="client">KStudioClient to use for accessing the event file</param>
+		/// <param name="fileName">Path to event file</param>
+		/// <param name="type">Type of metadata (Public or Personal)</param>
+		/// <param name="key">Key of metadata object to add/edit</param>
+		/// <param name="value">Value of metadata object to add/edit</param>
+		/// <returns>String which contains the updated contents of the target metadata object</returns>
+		public static string UpdateFileMetadata(KStudioClient client, string fileName, KStudioMetadataType type, string key, object value)
         {
             if (client == null)
             {

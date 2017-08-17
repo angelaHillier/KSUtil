@@ -142,5 +142,77 @@ namespace KSUtil
                 }
             }
         }
-    }
+
+		public static void PlaybackClip(KStudioClient client, string filePath, List<string> streamNames, uint loopCount, TimeSpan startingRelativeTime, TimeSpan endingRelativeTime)
+		{
+			if (client == null)
+			{
+				throw new ArgumentNullException("client");
+			}
+
+			if (!client.IsServiceConnected)
+			{
+				throw new InvalidOperationException(Strings.ErrorNotConnected);
+			}
+
+			if (string.IsNullOrEmpty(filePath))
+			{
+				throw new ArgumentNullException("filePath");
+			}
+
+			KStudioPlayback playback = null;
+
+			// determine if all specified streams are valid for playback
+			if (streamNames.Count<string>() > 0)
+			{
+				HashSet<Guid> playbackDataTypeIds = StreamSupport.ConvertStreamsToPlaybackGuids(streamNames);
+				StreamSupport.VerifyStreamsForRecordAndPlayback(playbackDataTypeIds);
+				Playback.VerifyStreamsForPlayback(client, filePath, playbackDataTypeIds);
+
+				try
+				{
+					KStudioEventStreamSelectorCollection streams = StreamSupport.CreateStreamCollection(playbackDataTypeIds, false);
+					playback = client.CreatePlayback(filePath, streams);
+				}
+				catch (Exception)
+				{
+					//K4W supports uncompressed and compressed color, so if we get an error, try playing the other type
+					KStudioEventStreamSelectorCollection streams = StreamSupport.CreateStreamCollection(playbackDataTypeIds, true);
+					playback = client.CreatePlayback(filePath, streams);
+				}
+			}
+			else
+			{
+				playback = client.CreatePlayback(filePath);
+			}
+
+			// begin playback
+			using (playback)
+			{
+				playback.EndBehavior = KStudioPlaybackEndBehavior.Stop; // this is the default behavior
+				playback.Mode = KStudioPlaybackMode.TimingEnabled; // this is the default behavior
+				playback.LoopCount = loopCount;
+                if (startingRelativeTime != TimeSpan.MinValue)
+                {
+                    playback.InPointByRelativeTime = startingRelativeTime;
+                }
+                if (endingRelativeTime != TimeSpan.MinValue)
+                {
+                    playback.OutPointByRelativeTime = endingRelativeTime;
+                }
+
+				playback.Start();
+
+				while (playback.State == KStudioPlaybackState.Playing)
+				{
+					Thread.Sleep(500);
+				}
+
+				if (playback.State == KStudioPlaybackState.Error)
+				{
+					throw new InvalidOperationException(Strings.ErrorPlaybackFailed);
+				}
+			}
+		}
+	}
 }
